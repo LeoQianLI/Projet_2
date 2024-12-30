@@ -3,7 +3,7 @@ import pandas as pd
 import time
 import uuid
 
-df = pd.read_csv(r"C:\Users\leo12\Documents\Projet2\data\\movies.csv")
+df = pd.read_csv(r"C:\Users\leo12\Documents\Projet_2\data\\movies.csv")
 
 st.set_page_config(
     layout= 'wide',

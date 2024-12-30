@@ -23,9 +23,9 @@ page_bg_css = """
 """
 st.markdown(page_bg_css, unsafe_allow_html=True)
 
-df = pd.read_csv(r"C:\Users\leo12\Documents\Projet2\data\\movies.csv")
-copy_df = pd.read_csv(r"C:\Users\leo12\Documents\Projet2\data\\movies.csv")
-df_intervenant = pd.read_csv(r"C:\Users\leo12\Documents\Projet2\data\\df_interv.csv")
+df = pd.read_csv(r"C:\Users\leo12\Documents\Projet_2\data\\movies.csv")
+copy_df = pd.read_csv(r"C:\Users\leo12\Documents\Projet_2\data\\movies.csv")
+df_intervenant = pd.read_csv(r"C:\Users\leo12\Documents\Projet_2\data\\df_interv.csv")
 
 
 # Ensure session state variables are initialized
@@ -46,6 +46,7 @@ with col2:
     # Retrieve the selected movie
     selected = st.session_state['title']
     selected_movie = df[df['originalTitle'] == selected].reset_index(drop=True)
+    st.write(selected_movie)
 
     if not selected_movie.empty:
         tconst_selected_movie = selected_movie.loc[0, 'tconst']
@@ -54,19 +55,6 @@ with col2:
     else:
         st.markdown("**No movie selected or found.**")
 
-    # Check if 'info_reco' has been properly set before using it
-    if st.session_state['info_reco'] is not None:
-        info_movie = st.session_state['info_reco'].reset_index(drop=True)
-    else:
-        st.markdown("**No recommendations available.**")
-
-    
- # Ensure 'info_movie' is initialized to avoid NameError
-    info_movie = None
-    if st.session_state['info_reco'] is not None:
-        info_movie = st.session_state['info_reco'].reset_index(drop=True)
-    else:
-        st.markdown("**No recommendations available.**")
 
     # Display poster and trailer if available
     if not selected_movie.empty:
@@ -77,18 +65,18 @@ with col2:
         with col2:
             st.video(selected_movie.loc[0, 'b_annonce'])
 
-        # Display metrics if 'info_movie' is not None
-        if info_movie is not None and not info_movie.empty:
+        # Display metrics if 'selected_movie' is not None
+        if  not selected_movie.empty:
             col1, col2, col3 = st.columns([6, 3, 3])
             with col1:
                 st.metric(label="Genre", value=selected_movie.loc[0, 'genres'])
-                st.metric(label="Average Rating", value=info_movie.loc[0, 'averageRating'])
+                st.metric(label="Average Rating", value=selected_movie.loc[0, 'averageRating'])
             with col2:
-                st.metric(label="Start Year", value=info_movie.loc[0, 'startYear'])
-                st.metric(label="Popularity", value=info_movie.loc[0, 'popularity_film'])
+                st.metric(label="Start Year", value=selected_movie.loc[0, 'startYear'])
+                st.metric(label="Popularity", value=selected_movie.loc[0, 'popularity_film'])
             with col3:
-                st.metric(label="Runtime (minutes)", value=info_movie.loc[0, 'runtimeMinutes'])
-                st.metric(label="Number of Votes", value=info_movie.loc[0, 'numVotes'])
+                st.metric(label="Runtime (minutes)", value=selected_movie.loc[0, 'runtimeMinutes'])
+                st.metric(label="Number of Votes", value=selected_movie.loc[0, 'numVotes'])
         else:
             st.markdown("**Metrics unavailable for this movie.**")
     

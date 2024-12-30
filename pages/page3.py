@@ -6,7 +6,7 @@ from chromadb.config import Settings
 import chromadb
 
 # Load the dataset
-df_m = pd.read_csv(r"C:\Users\leo12\Documents\Projet2\data\movies.csv")
+df_m = pd.read_csv(r"C:\Users\leo12\Documents\Projet_2\data\\movies.csv")
 
 # Streamlit UI
 st.title("Assistant de Recherche de Films")
@@ -33,14 +33,21 @@ if st.button("Recherche"):
             # Encode the column into embeddings
             embeddings = model.encode(df_m['all_text'].tolist())
 
-            # Initialize ChromaDB
-            chorma_client = chromadb.Client()
-            collection = chorma_client.get_or_create_collection(
+            # Define ChromaDB persistent storage location
+            CHROMA_DB_DIR = "chromadb_storage"
+            # Initialize ChromaDB with persistent storage
+            chroma_client = chromadb.Client(
+                Settings(
+                    chroma_api_impl="rest",
+                    persist_directory=CHROMA_DB_DIR  # Use DuckDB with Parquet for persistence
+             ))
+            collection = chroma_client.get_or_create_collection(
                 name="films_db",
                 metadata={"hnsw:space": "cosine"}
             )
             # Add data to ChromaDB
             collection.add(
+                embeddings=embeddings,
                 documents=df_m['all_text'].tolist(),
                 metadatas=[
                     {

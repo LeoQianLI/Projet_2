@@ -3,7 +3,7 @@ import pandas as pd
 from sklearn.preprocessing import MinMaxScaler
 from sklearn.neighbors import NearestNeighbors
 
-df_intervenant = pd.read_csv(r"C:\Users\leo12\Documents\Projet2\data\\df_interv.csv")
+df_intervenant = pd.read_csv(r"C:\Users\leo12\Documents\Projet_2\data\\df_interv.csv")
 
 # Utilisation d'une image externe pour le fond
 page_bg_css = """
