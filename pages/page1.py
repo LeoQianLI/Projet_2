@@ -140,8 +140,8 @@ with col2:
     # Display selected person's information in a large section below
     if st.session_state["selected_person"]:
         selected_person = st.session_state["selected_person"]
-        st.markdown("### Selected Person Information")
-        st.metric(label = "Profession", value = selected_person['profession'])
+        st.markdown(" ")
+        st.metric(label = "**Profession**", value = selected_person['profession'])
 
         # Display image only if it's not empty
         if selected_person["image"]:

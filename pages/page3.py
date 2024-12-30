@@ -36,18 +36,20 @@ if st.button("Recherche"):
             # Define ChromaDB persistent storage location
             CHROMA_DB_DIR = "chromadb_storage"
             # Initialize ChromaDB with persistent storage
-            chroma_client = chromadb.Client(
-                Settings(
-                    chroma_api_impl="rest",
-                    persist_directory=CHROMA_DB_DIR  # Use DuckDB with Parquet for persistence
-             ))
-            collection = chroma_client.get_or_create_collection(
+            #chroma_client = chromadb.Client(
+                #Settings(
+                    #chroma_api_impl="local",
+                    #persist_directory=CHROMA_DB_DIR # Use DuckDB with Parquet for persistence
+             #))
+            client = chromadb.PersistentClient(
+            path="/path/to/persist/directory",
+            settings=Settings(anonymized_telemetry=False))
+            collection = client.create_collection(
                 name="films_db",
                 metadata={"hnsw:space": "cosine"}
             )
             # Add data to ChromaDB
             collection.add(
-                embeddings=embeddings,
                 documents=df_m['all_text'].tolist(),
                 metadatas=[
                     {
