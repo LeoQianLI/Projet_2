@@ -1,0 +1,11 @@
+# Ignorer le dossier env
+env/
+# Ignorer le fichier .env
+.env
+
+Chatbot
+
+chroma_db
+
+chromastorage
+
